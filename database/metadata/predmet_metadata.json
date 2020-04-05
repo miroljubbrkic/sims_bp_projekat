@@ -1,0 +1,7 @@
+{
+    "collumns": ["sifra_predmeta", "naziv", "silabus", "broj_casova_nedeljno", "broj_semestra", "nastavnici"],
+    "key": "sifra_predmeta",
+    "linked_files": [],
+    "path_to_file": "predmet_data",
+    "type": "sequential"
+}
