@@ -3,7 +3,7 @@ import json
 import pickle
 
 
-class FileHandler(DataHandler):
+class SequentialHandler(DataHandler):
     def __init__(self, filepath, meta_filepath):
         super().__init__()
         self.filepath = "database/data/" + filepath
@@ -34,64 +34,62 @@ class FileHandler(DataHandler):
             pickle.dump(self.data, f)
 
     def get_one(self, id):
-        if self.metadata["type"] == "sequential":
-            return self.data[self.binary_search(id, 0, len(self.data))]
+        temp_object = self.data[self.binary_search(id, 0, (len(self.data)))]
+        if temp_object is not None:
+            return temp_object
         else:
-            for d in self.data:
-                if getattr(d, (self.metadata["key"])) == id:
-                    return d
-            return None
+            print("Objekat nije pronadjen!")
 
     def get_all(self):
         return self.data
 
     def insert(self, obj):
-        if self.metadata["type"] == "sequential":
-            location = self.find_location_for_insert(obj)
-            if (location == None):
-                self.data.append(obj)
-            else:
-                self.data.insert(location-1, obj)
-        else:
+        location = self.find_location_for_insert(obj)
+        if (location == None):
             self.data.append(obj)
+        else:
+            self.data.insert(location-1, obj)
         self.save_data()
 
     def insert_many(self, obj_list):
         if len(obj_list) > 0:
             if not isinstance(obj_list, list):
                 return
-            if self.metadata["type"] == "sequential":
-                for obj in obj_list:
-                    self.insert(obj)
-            else:
-                for obj in obj_list:
-                    self.insert(obj)
-        self.save_data()
+            for obj in obj_list:
+                self.insert(obj)
 
     def edit(self, id, obj):
-        for i in range(len(self.data)):
-            if i == id:
-                self.data[i] = obj
-                self.save_data()
+        self.data[self.binary_search(id, 0, (len(self.data)))] = obj
+        self.save_data()
 
     def delete_one(self, id):
-        for i in range(len(self.data)):
-            if i == id:
-                self.data.remove(self.get_one(id))
-                self.save_data()
+        temp_object = self.data[self.binary_search(id, 0, (len(self.data)))]
+        if temp_object is not None:
+            self.data.remove(temp_object)
+            self.save_data()
 
     def binary_search(self, id, start, end):
         while start <= end:
-            mid = start + (end - start)//2
-            if getattr(self.data[mid], (self.metadata["key"])) == id:
-                return mid
-            elif getattr(self.data[mid], (self.metadata["key"])) < id:
-                start = mid + 1     
+            middle = start + (end - start)//2
+            if getattr(self.data[middle], (self.metadata["key"])) == getattr(id, (self.metadata["key"])):
+                return middle
+            elif getattr(self.data[middle], (self.metadata["key"])) < getattr(id, (self.metadata["key"])):
+                start = middle + 1
             else:
-                end = mid - 1
-    
+                end = middle - 1
+        return None
+
     def find_location_for_insert(self, obj):
         for i in range(len(self.data)):
             if getattr(self.data[i], (self.metadata["key"])) > getattr(obj, (self.metadata["key"])):
                 return i
         return None
+
+    def selection_sort(self):
+        for i in range(len(self.data)-1):
+            j_min = i
+            for j in range(i+1, len(self.data)):
+                if getattr(self.data[j], (self.metadata["key"])) < getattr(self.data[j_min], (self.metadata["key"])):
+                    j_min = j
+            if i != j_min:
+                self.data[i], self.data[j_min] = self.data[j_min], self.data[i]
