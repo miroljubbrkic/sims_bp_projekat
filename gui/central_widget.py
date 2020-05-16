@@ -1,7 +1,4 @@
 from PySide2 import QtWidgets, QtGui, QtCore
-from database.klase.student import Student
-from database.klase.polozeni_predmet import PolozeniPredmet
-from database.klase.nepolozeni_predmet import NepolozeniPredmet
 from gui.model import Model
 
 # from gui.forme.student_forma import StudentForma
@@ -22,6 +19,7 @@ class CentralWidget(QtWidgets.QWidget):
         # za tabelu dodato da resize za max podataka
         self.table.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         # QtWidgets.QHeaderView.stretchLastSection
+
 
         # self.subtable = QtWidgets.QTableView(self.tab_widget)
         # self.subtable.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)

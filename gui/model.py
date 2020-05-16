@@ -37,20 +37,19 @@ class Model(QtCore.QAbstractTableModel):
                 return True
         return False
 
-    # def setData(self, index, value, role=QtCore.Qt.EditRole):
-    #     selected_data = self.get_element(index)
-    #     temp = selected_data
-    #     if value == "":
-    #         return False
-    #     for i in range(len(self.data_list.metadata["collumns"])):
-    #         if index.column() == i and role == QtCore.Qt.EditRole:
-    #             setattr(selected_data, self.data_list.metadata["collumns"][i], value)
-    #             self.data_list.edit(index.row(), selected_data)
-    #             return True
+
+    #  ne radi nesto
+    # def removeRow(self, index):
+    #     context_menu = QMenu()
+    #     delete_action = menu.addAction("Delete")
+    #     action = menu.exec_(self.viewport().mapToGlobal(pos))
+    #     if action == delete_action:
+    #         self.table_widget.removeRow(index)
+    #         return True
     #     return False
-
-
-    # def removeRow(self, index)
 
     def flags(self, index):
         return super().flags(index) | QtCore.Qt.ItemIsEditable
+
+
+

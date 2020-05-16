@@ -1,6 +1,7 @@
 import sys
 import os
 import json
+import datetime
 from PySide2 import QtWidgets, QtGui, QtCore
 
 from database.serial_handler import SerialHandler
@@ -49,8 +50,9 @@ if __name__ == "__main__":
     main_window.resize(800, 500)
     main_window.setWindowTitle("Editor generickih podataka")
     main_window.setWindowIcon(QtGui.QIcon("icons/angry.ico"))
-     # poziv pocetne teme
-    light_gray_theme(app)
+    # poziv pocetne teme po vremenu
+    set_theme_by_current_time(app)
+
 
     def full_screen_check(full_screen):
         if full_screen.isChecked():
@@ -63,7 +65,8 @@ if __name__ == "__main__":
     view_menu = QtWidgets.QMenu("View", menu_bar)
     help_menu = QtWidgets.QAction("Help", menu_bar) # promenjeno u QAction 
 
-    full_screen = QtWidgets.QAction("FullScreen", view_menu, checkable=True)
+    full_screen = QtWidgets.QAction("FullScreen", checkable=True)
+    full_screen.setShortcut(QtGui.QKeySequence(QtGui.QKeySequence.FullScreen))
     full_screen.triggered.connect(lambda : full_screen_check(full_screen))
     view_menu.addAction(full_screen)
 
