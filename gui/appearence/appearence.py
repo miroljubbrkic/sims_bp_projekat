@@ -32,7 +32,7 @@ def dark_moon_theme(app):
 
 def light_gray_theme(app):
     light_gray_theme = QtGui.QPalette()
-    light_gray_theme.setColor(QtGui.QPalette.Window, QtGui.QColor(211, 211, 211))
+    light_gray_theme.setColor(QtGui.QPalette.Window, QtGui.QColor(133, 133, 133))
     light_gray_theme.setColor(QtGui.QPalette.WindowText, QtGui.QColor(0, 0, 0))
     light_gray_theme.setColor(QtGui.QPalette.Base, QtGui.QColor(211, 211, 211))
     light_gray_theme.setColor(QtGui.QPalette.AlternateBase, QtGui.QColor(0, 0, 0))

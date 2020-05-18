@@ -19,7 +19,7 @@ class Model(QtCore.QAbstractTableModel):
         selected_data = self.get_element(index)
         for i in range(len(self.data_list.metadata["collumns"])):
             if index.column() == i and role == QtCore.Qt.DisplayRole:
-                return getattr(selected_data, self.data_list.metadata["collumns"][i])
+                return getattr(selected_data, (self.data_list.metadata["collumns"][i]))
 
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
         for i in range(len(self.data_list.metadata["collumns"])):
@@ -27,14 +27,18 @@ class Model(QtCore.QAbstractTableModel):
                 return self.data_list.metadata["collumns"][i].replace("_"," ").capitalize()
 
     def setData(self, index, value, role=QtCore.Qt.EditRole):
-        selected_data = self.get_element(index)
-        temp_data = selected_data
+        self.selected_data = self.get_element(index)
         if value == "":
             return False
         for i in range(len(self.data_list.metadata["collumns"])):
             if index.column() == i and role == QtCore.Qt.EditRole:
-                setattr(temp_data, self.data_list.metadata["collumns"][i], value)
-                self.data_list.edit(selected_data, temp_data)
+                if self.data_list.metadata["key"] == self.data_list.metadata["collumns"][i]:
+                    message_box = QtWidgets.QMessageBox()
+                    message_box.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowTitleHint)
+                    message_box.setText("Kljuc nije moguce menjati!")
+                    message_box.exec()
+                    return False
+                self.data_list.edit(self.selected_data, self.data_list.metadata["collumns"][i], value)
                 return True
         return False
 
@@ -54,8 +58,6 @@ class Model(QtCore.QAbstractTableModel):
         self.data_list.insert(obj)
         self.endInsertRows()
         return True
-
-
 
     def flags(self, index):
         return super().flags(index) | QtCore.Qt.ItemIsEditable

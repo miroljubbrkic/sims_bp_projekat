@@ -19,8 +19,6 @@ class Form(QtWidgets.QDialog):
             self.q_line_edit_list.append(self.line_edit)
         self.layout.addWidget(self.dodaj)
         self.setLayout(self.layout)
-
-
         self.display()
 
     def get_class(self, kls):
@@ -38,24 +36,24 @@ class Form(QtWidgets.QDialog):
         for i in range(len(self.q_line_edit_list)):
             if self.q_line_edit_list[i].text() == "":
                 message_box = QtWidgets.QMessageBox()
-                message_box.setText("Sva moraju biti popunjena!")
+                message_box.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowTitleHint)
+                message_box.setText("Sva polja moraju biti popunjena!")
                 message_box.exec()
+                self.new_object = None
                 return
             setattr(self.new_object, self.data_type.metadata["collumns"][i], self.q_line_edit_list[i].text())
         for i in self.data_type.data:
             if getattr(i, self.data_type.metadata["key"]) == getattr(self.new_object, self.data_type.metadata["key"]):
                 message_box = QtWidgets.QMessageBox()
+                message_box.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowTitleHint)
                 message_box.setText("Kljuc je zauzet!")
                 message_box.exec()
+                self.new_object = None
                 return
         self.close()
 
     def get_object(self):
         return self.new_object
 
-
     def display(self):
         self.exec_()
-
-
-
