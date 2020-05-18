@@ -60,11 +60,6 @@ class SequentialHandler(DataHandler):
             for obj in obj_list:
                 self.insert(obj)
 
-    # def edit(self, id, col, value):
-    #     change_data = self.data[self.binary_search(id)]
-    #     setattr(change_data, self.metadata["collumns"][col], value)
-    #     # self.save_data()
-
     def edit(self, id, attr, value):
         change_data = self.data[self.binary_search(id)]
         setattr(change_data, attr, value)
@@ -90,21 +85,6 @@ class SequentialHandler(DataHandler):
             else:
                 end = mid - 1
         return None
-
-    # def find_location_binary(self, obj):
-    #     start = 0
-    #     end = len(self.data)-1
-    #     while start <= end:
-    #         mid = start + (end - start)//2
-    #         if getattr(self.data[start], (self.metadata["key"])) > getattr(obj, (self.metadata["key"])):
-    #             return start
-    #         elif getattr(self.data[mid], (self.metadata["key"])) > getattr(obj, (self.metadata["key"])):
-    #             return mid
-    #         elif getattr(self.data[mid], (self.metadata["key"])) < getattr(obj, (self.metadata["key"])):
-    #             start = mid + 1
-    #         else:
-    #             end = mid - 1
-    #     return None
 
     def find_location_binary(self, obj):
         start = 0
