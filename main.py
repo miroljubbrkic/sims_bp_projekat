@@ -7,10 +7,10 @@ from PySide2 import QtWidgets, QtGui, QtCore
 from database.serial_handler import SerialHandler
 from database.sequential_handler import SequentialHandler
 
-from database.file_handler import FileHandler
+# from database.file_handler import FileHandler
 
 from gui.central_widget import CentralWidget
-from gui.appearance.appearance import *
+from gui.appearence.appearence import *
 
 if __name__ == "__main__":
     def file_clicked(index):
@@ -71,7 +71,7 @@ if __name__ == "__main__":
     view_menu.addAction(full_screen)
 
     #theme menubar
-    theme = QtWidgets.QMenu("Appearance", view_menu)
+    theme = QtWidgets.QMenu("Theme", view_menu)
 
     theme.addSection("Dark Theme")
     dark = QtWidgets.QAction("Dark", theme)

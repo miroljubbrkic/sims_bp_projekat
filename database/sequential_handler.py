@@ -69,6 +69,7 @@ class SequentialHandler(DataHandler):
             self.save_data()
 
     def binary_search(self, id, start, end):
+        print(id)
         while start <= end:
             middle = start + (end - start)//2
             if getattr(self.data[middle], (self.metadata["key"])) == getattr(id, (self.metadata["key"])):

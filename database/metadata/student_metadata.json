@@ -5,5 +5,5 @@
     "key": "broj_indeksa",
     "linked_files": ["nepolozeni_predmeti_metadata", "polozeni_predmeti_metadata"],
     "path_to_file": "student_data",
-    "type": "sequential"
+    "type": "serial"
 }

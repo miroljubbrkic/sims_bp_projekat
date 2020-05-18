@@ -1,4 +1,5 @@
 from PySide2 import QtWidgets, QtCore
+from gui.form import Form
 
 class Model(QtCore.QAbstractTableModel):
     def __init__(self, data_list, parent=None):
@@ -39,12 +40,21 @@ class Model(QtCore.QAbstractTableModel):
 
     def removeRows(self, row, rows, index=QtCore.QModelIndex()):
         selected_data = self.get_element(index)
-        print(getattr(selected_data, self.data_list.metadata["key"]))
         self.beginRemoveRows(QtCore.QModelIndex(), row, row + rows - 1)
-        # self.data_list.data = self.data_list.data[:row] + self.data_list.data[row + rows:]
         self.data_list.delete_one(self.get_element(index))
         self.endRemoveRows()
         return True
+
+    def insertRows(self, row, rows, index=QtCore.QModelIndex()):
+        self.beginInsertRows(QtCore.QModelIndex(), row, row + rows-1)
+        forma = Form(self.data_list)
+        obj = forma.get_object()
+        if obj is None:
+            return False
+        self.data_list.insert(obj)
+        self.endInsertRows()
+        return True
+
 
 
     def flags(self, index):
