@@ -1,15 +1,16 @@
 import sys
 import os
 import json
+import datetime
 from PySide2 import QtWidgets, QtGui, QtCore
 
 from database.serial_handler import SerialHandler
 from database.sequential_handler import SequentialHandler
 
-from database.file_handler import FileHandler
+# from database.file_handler import FileHandler
 
 from gui.central_widget import CentralWidget
-from gui.theme.theme import *
+from gui.appearence.appearence import *
 
 if __name__ == "__main__":
     def file_clicked(index):
@@ -49,8 +50,9 @@ if __name__ == "__main__":
     main_window.resize(800, 500)
     main_window.setWindowTitle("Editor generickih podataka")
     main_window.setWindowIcon(QtGui.QIcon("icons/angry.ico"))
-     # poziv pocetne teme
-    light_gray_theme(app)
+    # poziv pocetne teme po vremenu
+    set_theme_by_current_time(app)
+
 
     def full_screen_check(full_screen):
         if full_screen.isChecked():
@@ -63,7 +65,8 @@ if __name__ == "__main__":
     view_menu = QtWidgets.QMenu("View", menu_bar)
     help_menu = QtWidgets.QAction("Help", menu_bar) # promenjeno u QAction 
 
-    full_screen = QtWidgets.QAction("FullScreen", view_menu, checkable=True)
+    full_screen = QtWidgets.QAction("FullScreen", checkable=True)
+    full_screen.setShortcut(QtGui.QKeySequence(QtGui.QKeySequence.FullScreen))
     full_screen.triggered.connect(lambda : full_screen_check(full_screen))
     view_menu.addAction(full_screen)
 
@@ -110,7 +113,7 @@ if __name__ == "__main__":
     tree_view.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents) #prosirena kolona naspram sadrzaja
 
     structure_dock.setWidget(tree_view)
-    structure_dock.setMaximumWidth(250) # maximalna vlicina strukture docka
+    structure_dock.setMaximumWidth(250) # maximalna velicina strukture docka
 
     toggle_structure_dock_action = structure_dock.toggleViewAction()
     view_menu.addAction(toggle_structure_dock_action)
@@ -120,7 +123,7 @@ if __name__ == "__main__":
     status_bar = QtWidgets.QStatusBar(main_window)
     status_bar.showMessage("Status bar je prazan!")
 
-    #  set
+    # set
     main_window.setMenuBar(menu_bar)
     # main_window.addToolBar(tool_bar)
     main_window.addDockWidget(QtCore.Qt.LeftDockWidgetArea, structure_dock)

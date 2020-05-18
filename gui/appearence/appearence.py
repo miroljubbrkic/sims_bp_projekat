@@ -1,5 +1,5 @@
 from PySide2 import QtWidgets, QtGui, QtCore
-
+import datetime
 def dark_theme(app):
     dark_theme = QtGui.QPalette()
     dark_theme.setColor(QtGui.QPalette.Window, QtGui.QColor(14, 15, 17))
@@ -44,3 +44,11 @@ def light_gray_theme(app):
     light_gray_theme.setColor(QtGui.QPalette.Highlight, QtGui.QColor(150, 150, 150))
     light_gray_theme.setColor(QtGui.QPalette.HighlightedText, QtGui.QColor(0, 0, 0))
     return app.setPalette(light_gray_theme)
+
+def set_theme_by_current_time(app):
+    now = datetime.datetime.now()
+    now_time = now.time()
+    if now_time >= datetime.time(18,00) or now_time <= datetime.time(6,00):
+        dark_theme(app)
+    else:
+        light_gray_theme(app)

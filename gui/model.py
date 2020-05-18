@@ -1,4 +1,5 @@
 from PySide2 import QtWidgets, QtCore
+from gui.form import Form
 
 class Model(QtCore.QAbstractTableModel):
     def __init__(self, data_list, parent=None):
@@ -37,20 +38,27 @@ class Model(QtCore.QAbstractTableModel):
                 return True
         return False
 
-    # def setData(self, index, value, role=QtCore.Qt.EditRole):
-    #     selected_data = self.get_element(index)
-    #     temp = selected_data
-    #     if value == "":
-    #         return False
-    #     for i in range(len(self.data_list.metadata["collumns"])):
-    #         if index.column() == i and role == QtCore.Qt.EditRole:
-    #             setattr(selected_data, self.data_list.metadata["collumns"][i], value)
-    #             self.data_list.edit(index.row(), selected_data)
-    #             return True
-    #     return False
+    def removeRows(self, row, rows, index=QtCore.QModelIndex()):
+        selected_data = self.get_element(index)
+        self.beginRemoveRows(QtCore.QModelIndex(), row, row + rows - 1)
+        self.data_list.delete_one(self.get_element(index))
+        self.endRemoveRows()
+        return True
+
+    def insertRows(self, row, rows, index=QtCore.QModelIndex()):
+        self.beginInsertRows(QtCore.QModelIndex(), row, row + rows-1)
+        forma = Form(self.data_list)
+        obj = forma.get_object()
+        if obj is None:
+            return False
+        self.data_list.insert(obj)
+        self.endInsertRows()
+        return True
 
 
-    # def removeRow(self, index)
 
     def flags(self, index):
         return super().flags(index) | QtCore.Qt.ItemIsEditable
+
+
+
