@@ -10,7 +10,7 @@ from database.sequential_handler import SequentialHandler
 from database.file_handler import FileHandler
 
 from gui.central_widget import CentralWidget
-from gui.theme.theme import *
+from gui.appearance.appearance import *
 
 if __name__ == "__main__":
     def file_clicked(index):

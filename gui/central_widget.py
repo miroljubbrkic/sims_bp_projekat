@@ -1,7 +1,7 @@
 from PySide2 import QtWidgets, QtGui, QtCore
 from gui.model import Model
 
-# from gui.forme.student_forma import StudentForma
+from gui.form import Form
 
 class CentralWidget(QtWidgets.QWidget):
     def __init__(self, parent, data_list):
@@ -101,7 +101,9 @@ class CentralWidget(QtWidgets.QWidget):
             # self.table.model().removeRows(0, 0, QtCore.QModelIndex())
         delete.triggered.connect(lambda : self.remove_one())
         menu.addAction(delete)
-        menu.addAction('Add')
+        add = QtWidgets.QAction("Add", menu)
+        add.triggered.connect(lambda : Form(self.data_list))
+        menu.addAction(add)
         menu.exec_(QtGui.QCursor.pos())
     
 

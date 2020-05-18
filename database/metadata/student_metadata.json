@@ -1,5 +1,6 @@
 {
     "title": "Studenti",
+    "class": "Student",
     "collumns": ["broj_indeksa", "ime_prezime"],
     "key": "broj_indeksa",
     "linked_files": ["nepolozeni_predmeti_metadata", "polozeni_predmeti_metadata"],
