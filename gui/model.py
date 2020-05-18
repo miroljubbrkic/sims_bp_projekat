@@ -37,16 +37,15 @@ class Model(QtCore.QAbstractTableModel):
                 return True
         return False
 
+    def removeRows(self, row, rows, index=QtCore.QModelIndex()):
+        selected_data = self.get_element(index)
+        print(getattr(selected_data, self.data_list.metadata["key"]))
+        self.beginRemoveRows(QtCore.QModelIndex(), row, row + rows - 1)
+        # self.data_list.data = self.data_list.data[:row] + self.data_list.data[row + rows:]
+        self.data_list.delete_one(self.get_element(index))
+        self.endRemoveRows()
+        return True
 
-    #  ne radi nesto
-    # def removeRow(self, index):
-    #     context_menu = QMenu()
-    #     delete_action = menu.addAction("Delete")
-    #     action = menu.exec_(self.viewport().mapToGlobal(pos))
-    #     if action == delete_action:
-    #         self.table_widget.removeRow(index)
-    #         return True
-    #     return False
 
     def flags(self, index):
         return super().flags(index) | QtCore.Qt.ItemIsEditable

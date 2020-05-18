@@ -71,7 +71,7 @@ if __name__ == "__main__":
     view_menu.addAction(full_screen)
 
     #theme menubar
-    theme = QtWidgets.QMenu("Theme", view_menu)
+    theme = QtWidgets.QMenu("Appearance", view_menu)
 
     theme.addSection("Dark Theme")
     dark = QtWidgets.QAction("Dark", theme)
@@ -113,7 +113,7 @@ if __name__ == "__main__":
     tree_view.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents) #prosirena kolona naspram sadrzaja
 
     structure_dock.setWidget(tree_view)
-    structure_dock.setMaximumWidth(250) # maximalna vlicina strukture docka
+    structure_dock.setMaximumWidth(250) # maximalna velicina strukture docka
 
     toggle_structure_dock_action = structure_dock.toggleViewAction()
     view_menu.addAction(toggle_structure_dock_action)
@@ -123,7 +123,7 @@ if __name__ == "__main__":
     status_bar = QtWidgets.QStatusBar(main_window)
     status_bar.showMessage("Status bar je prazan!")
 
-    #  set
+    # set
     main_window.setMenuBar(menu_bar)
     # main_window.addToolBar(tool_bar)
     main_window.addDockWidget(QtCore.Qt.LeftDockWidgetArea, structure_dock)

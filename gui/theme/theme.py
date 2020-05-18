@@ -48,7 +48,7 @@ def light_gray_theme(app):
 def set_theme_by_current_time(app):
     now = datetime.datetime.now()
     now_time = now.time()
-    if now_time >= datetime.time(19,00) or now_time <= datetime.time(6,00):
+    if now_time >= datetime.time(18,00) or now_time <= datetime.time(6,00):
         dark_theme(app)
     else:
         light_gray_theme(app)
