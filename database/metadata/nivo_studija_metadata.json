@@ -2,19 +2,11 @@
     "title": "Nivo studija",
     "class": "NivoStudija",
     "collumns": [
-<<<<<<< HEAD
         "oznaka_nivoa",
         "naziv"
     ],
     "key": ["oznaka_nivoa"],
     "linked_files": ["studijski_program_metadata.json"],
-=======
-        "oznaka",
-        "naziv"
-    ],
-    "key": ["oznaka"],
-    "linked_files": [],
->>>>>>> b36dc6f1a8835fcd9c3e1c6b1d75019c20fca532
     "path_to_file": "nivo_studija_data",
     "type": "serial"
 }

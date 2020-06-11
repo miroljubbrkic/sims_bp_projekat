@@ -2,11 +2,7 @@
     "title": "Plan studijske grupe",
     "class": "PlanStudijskeGrupe",
     "collumns": [
-<<<<<<< HEAD
         "oznaka_ustanove",
-=======
-        "program_ustanove",
->>>>>>> b36dc6f1a8835fcd9c3e1c6b1d75019c20fca532
         "oznaka_programa",
         "blok",
         "pozicija",
@@ -14,20 +10,12 @@
         "oznaka_predmeta"
     ],
     "key": [
-<<<<<<< HEAD
         "oznaka_ustanove",
-=======
-        "program_ustanove",
->>>>>>> b36dc6f1a8835fcd9c3e1c6b1d75019c20fca532
         "oznaka_programa",
         "blok",
         "pozicija"
     ],
     "linked_files": [],
     "path_to_file": "plan_studijske_grupe_data",
-<<<<<<< HEAD
     "type": "serial"
-=======
-    "type": "sequential"
->>>>>>> b36dc6f1a8835fcd9c3e1c6b1d75019c20fca532
 }

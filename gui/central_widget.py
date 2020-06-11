@@ -102,11 +102,7 @@ class CentralWidget(QtWidgets.QWidget):
             self.subtables[i].setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
             self.subtables[i].horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
             self.subtables[i].setModel(self.model)
-<<<<<<< HEAD
             self.tab_widget.addTab(self.subtables[i], QtGui.QIcon("icons/tab_icon.png"), self.model.data_list.metadata["title"])
-=======
-            self.tab_widget.addTab(self.subtables[i], QtGui.QIcon("icons/tab_icon.png"), self.data_list.metadata["linked_files"][i].replace("_metadata.json","").capitalize())
->>>>>>> b36dc6f1a8835fcd9c3e1c6b1d75019c20fca532
 
     def remove_one(self, table, model):
         if model is not None:
@@ -120,12 +116,7 @@ class CentralWidget(QtWidgets.QWidget):
     def insert_one(self, model):
         if model is not None:
             model.insertRows(1, 1, QtCore.QModelIndex())
-<<<<<<< HEAD
         
-=======
-
-
->>>>>>> b36dc6f1a8835fcd9c3e1c6b1d75019c20fca532
     def handle_header_menu(self):
         menu = QtWidgets.QMenu(self)
         delete = QtWidgets.QAction("Delete", menu)

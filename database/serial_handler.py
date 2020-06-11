@@ -69,7 +69,6 @@ class SerialHandler(DataHandler):
         for i in range(len(self.metadata["key"])):
             primary_key += str(getattr(keys, (self.metadata["key"][i])))
         return primary_key
-<<<<<<< HEAD
 
     def get_filtered_data(self, selected, selected_metadata):
         filtered_data = []
@@ -86,5 +85,3 @@ class SerialHandler(DataHandler):
         return filtered_data
 
 
-=======
->>>>>>> b36dc6f1a8835fcd9c3e1c6b1d75019c20fca532

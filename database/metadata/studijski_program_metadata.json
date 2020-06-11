@@ -2,7 +2,6 @@
     "title": "Studijski program",
     "class": "StudijskiProgram",
     "collumns": [
-<<<<<<< HEAD
         "oznaka_ustanove",
         "oznaka_nivoa",
         "oznaka_programa",
@@ -16,15 +15,4 @@
     "linked_files": ["tok_studija_metadata.json", "plan_studijske_grupe_metadata.json"],
     "path_to_file": "studijski_program_data",
     "type": "sequential"
-=======
-        "ustanova",
-        "nivo",
-        "oznaka_programa",
-        "naziv_programa"
-    ],
-    "key": ["ustanova","oznaka_programa"],
-    "linked_files": [],
-    "path_to_file": "studijski_program_data",
-    "type": "serial"
->>>>>>> b36dc6f1a8835fcd9c3e1c6b1d75019c20fca532
 }
