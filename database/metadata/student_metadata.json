@@ -2,9 +2,15 @@
     "title": "Student",
     "class": "Student",
     "collumns": [
+<<<<<<< HEAD
         "oznaka_ustanove",
         "struka",
         "indeks",
+=======
+        "ustanova",
+        "struka",
+        "broj_indeksa",
+>>>>>>> b36dc6f1a8835fcd9c3e1c6b1d75019c20fca532
         "prezime",
         "ime_roditelja",
         "ime",
@@ -15,11 +21,19 @@
         "datum_rodjenja"
     ],
     "key": [
+<<<<<<< HEAD
         "oznaka_ustanove",
         "struka",
         "indeks"
     ],
     "linked_files": ["tok_studija_metadata.json"],
+=======
+        "ustanova",
+        "struka",
+        "broj_indeksa"
+    ],
+    "linked_files": [],
+>>>>>>> b36dc6f1a8835fcd9c3e1c6b1d75019c20fca532
     "path_to_file": "student_data",
     "type": "sequential"
 }

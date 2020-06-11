@@ -2,12 +2,21 @@
     "title": "Viskoskolska ustanova",
     "class": "VisokoskolskaUStanova",
     "collumns": [
+<<<<<<< HEAD
         "oznaka_ustanove",
         "naziv",
         "adresa"
     ],
     "key": ["oznaka_ustanove"],
     "linked_files": ["student_metadata.json", "studijski_program_metadata.json", "nastavni_predmet_metadata.json"],
+=======
+        "oznaka",
+        "naziv",
+        "adresa"
+    ],
+    "key": ["oznaka"],
+    "linked_files": [],
+>>>>>>> b36dc6f1a8835fcd9c3e1c6b1d75019c20fca532
     "path_to_file": "visokoskolska_ustanova_data",
     "type": "serial"
 }
