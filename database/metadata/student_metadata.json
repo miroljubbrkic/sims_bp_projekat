@@ -1,9 +1,25 @@
 {
-    "title": "Studenti",
+    "title": "Student",
     "class": "Student",
-    "collumns": ["broj_indeksa", "ime_prezime"],
-    "key": "broj_indeksa",
-    "linked_files": ["predmet_metadata.json", "nastavnik_metadata.json"],
+    "collumns": [
+        "oznaka_ustanove",
+        "struka",
+        "indeks",
+        "prezime",
+        "ime_roditelja",
+        "ime",
+        "pol",
+        "adresa_stanovanja",
+        "telefon",
+        "jmbg",
+        "datum_rodjenja"
+    ],
+    "key": [
+        "oznaka_ustanove",
+        "struka",
+        "indeks"
+    ],
+    "linked_files": ["tok_studija_metadata.json"],
     "path_to_file": "student_data",
     "type": "sequential"
 }

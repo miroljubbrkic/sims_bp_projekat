@@ -11,7 +11,7 @@ from database.file_handler import FileHandler
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self,app):
         super(MainWindow, self).__init__()
-        self.resize(800, 500)
+        self.resize(1000, 600)
         self.setWindowTitle("Editor generickih podataka")
         self.setWindowIcon(QtGui.QIcon("icons/angry.ico"))
 
@@ -31,7 +31,7 @@ class MainWindow(QtWidgets.QMainWindow):
         dark = QtWidgets.QAction("Dark", theme)
         dark.triggered.connect(lambda : dark_theme(app))
         theme.addAction(dark)
-        dark_moon = QtWidgets.QAction("Dark Moon", theme)
+        dark_moon = QtWidgets.QAction("Midnight Blue", theme)
         dark_moon.triggered.connect(lambda : dark_moon_theme(app))
         theme.addAction(dark_moon)
         theme.addSection("Light Theme")
@@ -76,9 +76,9 @@ class MainWindow(QtWidgets.QMainWindow):
                
             central_widget = QtWidgets.QTabWidget(self)
             data_list = FileHandler(metadata_path).get_handler()
-            status_bar.showMessage("Otvorili ste " + file_path.replace("_data", "e") + "!          Tip: " + data_list.metadata["type"])
+            status_bar.showMessage("Otvorili ste " + data_list.metadata["title"].lower() + "!          Tip: " + data_list.metadata["type"])
             central_workspace = CentralWidget(central_widget, data_list)
-            central_widget.addTab(central_workspace, QtGui.QIcon("icons/tab_icon.png"), file_path.replace("_data", "").capitalize())
+            central_widget.addTab(central_workspace, QtGui.QIcon("icons/tab_icon.png"), data_list.metadata["title"].capitalize())
             # central_widget.setTabsClosable(True)
             # central_widget.tabCloseRequested.connect(delete_tab)
             self.setCentralWidget(central_widget)

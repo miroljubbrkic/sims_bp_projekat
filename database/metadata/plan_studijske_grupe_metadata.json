@@ -1,0 +1,21 @@
+{
+    "title": "Plan studijske grupe",
+    "class": "PlanStudijskeGrupe",
+    "collumns": [
+        "oznaka_ustanove",
+        "oznaka_programa",
+        "blok",
+        "pozicija",
+        "ustanova_predmet",
+        "oznaka_predmeta"
+    ],
+    "key": [
+        "oznaka_ustanove",
+        "oznaka_programa",
+        "blok",
+        "pozicija"
+    ],
+    "linked_files": [],
+    "path_to_file": "plan_studijske_grupe_data",
+    "type": "serial"
+}
