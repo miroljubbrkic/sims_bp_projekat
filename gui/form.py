@@ -20,37 +20,28 @@ class Form(QtWidgets.QDialog):
         self.layout.addWidget(self.dodaj)
         self.setLayout(self.layout)
         self.display()
-
-    def get_class(self, kls):
-        parts = kls.split(".")
-        module = ".".join(parts[:-1])
-        my_class = __import__(module)
-        for comp in parts[1:]:
-            my_class = getattr(my_class, comp)
-        return my_class
     
     def add_class(self):
-        path_to_class = ("database.klase" + "." + self.data_type.metadata["path_to_file"].lower().replace("_data","") + "." + self.data_type.metadata["class"])
-        new_class = self.get_class(path_to_class)
-        self.new_object = new_class()
+        self.new_object = {}
         for i in range(len(self.q_line_edit_list)):
             if self.q_line_edit_list[i].text() == "":
-                message_box = QtWidgets.QMessageBox()
-                message_box.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowTitleHint)
-                message_box.setText("Sva polja moraju biti popunjena!")
-                message_box.exec()
+                self.message_box("Sva polja moraju biti popunjena!")
                 self.new_object = None
                 return
-            setattr(self.new_object, self.data_type.metadata["collumns"][i], self.q_line_edit_list[i].text())
+            self.new_object[self.data_type.metadata["collumns"][i]] = self.q_line_edit_list[i].text()
         for i in self.data_type.data:
             if self.data_type.concat(i) == self.data_type.concat(self.new_object):
-                message_box = QtWidgets.QMessageBox()
-                message_box.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowTitleHint)
-                message_box.setText("Kljuc je zauzet!")
-                message_box.exec()
+                self.message_box("Kljuc je zauzet!")
                 self.new_object = None
                 return
+            # /\
         self.close()
+
+    def message_box(self, text):
+        message_box = QtWidgets.QMessageBox()
+        message_box.setWindowFlags(QtCore.Qt.FramelessWindowHint | QtCore.Qt.WindowTitleHint)
+        message_box.setText(text)
+        message_box.exec()
 
     def get_object(self):
         return self.new_object

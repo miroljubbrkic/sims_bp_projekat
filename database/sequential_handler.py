@@ -58,7 +58,7 @@ class SequentialHandler:
 
     def edit(self, id, attr, value):
         change_data = self.data[self.binary_search(id)]
-        setattr(change_data, attr, value)
+        change_data[attr] = value
         self.save_data()
 
     def delete_one(self, id):
@@ -98,7 +98,7 @@ class SequentialHandler:
     def concat(self, keys):
         primary_key = ""
         for i in range(len(self.metadata["key"])):
-            primary_key += str(getattr(keys, (self.metadata["key"][i])))
+            primary_key += str(keys[self.metadata["key"][i]])
         return primary_key
 
     def is_database(self):

@@ -49,7 +49,7 @@ class SerialHandler:
                 self.insert(obj)
 
     def edit(self, id, attr, value):
-        setattr(self.data[self.search(id)], attr, value)
+        self.data[self.search(id)][attr] = value
         self.save_data()
 
     def delete_one(self, id):
@@ -65,7 +65,7 @@ class SerialHandler:
     def concat(self, keys):
         primary_key = ""
         for i in range(len(self.metadata["key"])):
-            primary_key += str(getattr(keys, (self.metadata["key"][i])))
+            primary_key += str(keys[self.metadata["key"][i]])
         return primary_key
 
     def get_filtered_data(self, selected, selected_metadata):
@@ -76,8 +76,8 @@ class SerialHandler:
             for i in range(len(self.metadata["key"])):
                 for j in range(len(selected_metadata["key"])):
                     if self.metadata["key"][i] == selected_metadata["key"][j]:
-                        current += str(getattr(self.data[d], (self.metadata["key"][i])))
-                        filter_sel += str(getattr(selected, (selected_metadata["key"][j])))
+                        current += str(self.data[d][self.metadata["key"][i]])
+                        filter_sel += str(selected[selected_metadata["key"][j]])
             if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
                 filtered_data.append(self.data[d])
         return filtered_data

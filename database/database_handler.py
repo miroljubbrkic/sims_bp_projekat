@@ -21,7 +21,7 @@ class DatabaseHandler:
     def connect(self):
         try:
             if self.connection == None:
-                self.connection = pymysql.connect(host="localhost", user="root", password="admin", db="projekat", charset="utf8", cursorclass=pymysql.cursors.DictCursor)
+                self.connection = pymysql.connect(host="localhost", user="root", password="admin", db="ustanove", charset="utf8", cursorclass=pymysql.cursors.DictCursor)
         except pymysql.MySQLError as e:
             print(e)
 
@@ -78,7 +78,7 @@ class DatabaseHandler:
             self.connect()
             with self.connection.cursor() as cursor:
                 query = self.get_query(1)
-                obj = tuple(vars(obj).values())
+                # obj = tuple(vars(obj).values())
                 cursor.execute(query, obj)
                 self.connection.commit()
         except pymysql.MySQLError as e:
@@ -142,12 +142,13 @@ class DatabaseHandler:
             query = query[:-2]
             query += ") VALUES ("
             for i in range(len(self.metadata["collumns"])):
-                if self.metadata["attr_type"] == "date":
+                if self.metadata["attr_type"][i] == "date":
                     query += ("STR_TO_DATE(%s, "'%d%m%Y'")" + ", ")
                 else:
                     query += ("%s" + ", ")
             query = query[:-2]
             query += ")"
+            print(query)
             return query
         elif num == 2:
             query = "DELETE FROM " + self.table + " WHERE "
@@ -162,6 +163,12 @@ class DatabaseHandler:
             query = query[:-5]
             return query
     
+    def concat(self, keys):
+        primary_key = ""
+        for i in range(len(self.metadata["key"])):
+            primary_key += str(keys[self.metadata["key"][i]])
+        return primary_key
+
     def is_database(self):
         return True
 

@@ -68,7 +68,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         def file_clicked(index):
             file_path = os.path.basename(file_system_model.filePath(index))
-            metadata_path = file_path.replace("_data","_metadata.json")
+            # metadata_path = file_path.replace("_data","_metadata.json")
+            metadata_path = file_path + "_metadata.json"
 
             # def delete_tab(index):
             #     central_widget.removeTab(index)
