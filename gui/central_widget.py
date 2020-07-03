@@ -87,6 +87,7 @@ class CentralWidget(QtWidgets.QWidget):
                                 filter_sel += str(selected_object_model[linked_keys[j]["k"][k]])
                 if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
                     filtered_data.append(self.subhandler.data[d])
+                print(current, "====", filter_sel)
             
             self.model = Model(self.subhandler, filtered_data)
             self.subtables[i].setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)

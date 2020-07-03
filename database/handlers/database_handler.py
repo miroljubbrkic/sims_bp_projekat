@@ -1,6 +1,6 @@
 import pymysql
 import json
-# from klase.nivo_studija import NivoStudija
+import datetime
 
 class DatabaseHandler:
     def __init__(self, meta_filepath, table):
@@ -20,7 +20,7 @@ class DatabaseHandler:
     def connect(self):
         try:
             if self.connection == None:
-                self.connection = pymysql.connect(host="localhost", user="root", password="lozinka", db="ustanove", charset="utf8", cursorclass=pymysql.cursors.DictCursor)
+                self.connection = pymysql.connect(host="localhost", user="root", password="admin", db="ustanove", charset="utf8", cursorclass=pymysql.cursors.DictCursor)
         except pymysql.MySQLError as e:
             print(e)
 
@@ -36,7 +36,6 @@ class DatabaseHandler:
                 cursor.execute(query, ())
                 result = cursor.fetchall()
                 self.data = result
-                # print(self.data)
         except pymysql.MySQLError as e:
             print(e)
         finally:
@@ -78,6 +77,7 @@ class DatabaseHandler:
             with self.connection.cursor() as cursor:
                 query = self.get_query(1)
                 obj = tuple(obj.values())
+                print(obj)
                 cursor.execute(query, obj)
                 self.connection.commit()
         except pymysql.MySQLError as e:
@@ -113,6 +113,7 @@ class DatabaseHandler:
             self.connect()
             with self.connection.cursor() as cursor:
                 query = self.get_query(3, attr, str(value))
+                print(query)
                 primary_keys = []
                 for i in self.metadata["key"]:
                     t = obj[i]
@@ -141,11 +142,12 @@ class DatabaseHandler:
             query += ") VALUES ("
             for i in range(len(self.metadata["collumns"])):
                 if self.metadata["attr_type"][i] == "date":
-                    query += ("STR_TO_DATE(%s, "'%d%m%Y'")" + ", ")
+                    query += ("STR_TO_DATE(" + "%s" + ", '%%d-%%m-%%Y'), ")
                 else:
                     query += ("%s" + ", ")
             query = query[:-2]
             query += ")"
+            print(query)
             return query
         elif num == 2:
             query = "DELETE FROM " + self.table + " WHERE "
@@ -169,15 +171,3 @@ class DatabaseHandler:
     def is_database(self):
         return True
 
-
-
-
-# wat = DatabaseHandler("nivo_studija_metadata.json", "nivo_studija")
-# wat.edit()
-# t = NivoStudija(7, "test")
-# wat.insert(t)
-# wat.delete_one(t)
-# wat.save_data()
-# print(wat.get_all()[1][wat.metadata["collumns"][1]])
-# getattr(self.selected_data, (self.data_list.metadata["collumns"][i]))
-# wat.save_data()
