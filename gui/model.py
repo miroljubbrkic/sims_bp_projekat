@@ -93,8 +93,8 @@ class Model(QtCore.QAbstractTableModel):
                     for j in range(len(linked_keys)):
                         if linked_keys[j]["name"] == i.metadata["class"]:
                             for k in range(len(linked_keys[j]["fk"])):
-                                current += i.get_all()[d][linked_keys[j]["fk"][k]]
-                                filter_sel += selected_data[linked_keys[j]["k"][k]]
+                                current += str(i.get_all()[d][linked_keys[j]["fk"][k]])
+                                filter_sel += str(selected_data[linked_keys[j]["k"][k]])
                 if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
                     self.message_box("Ovaj podatak je povezan sa drugim podatkom!")
                     return False

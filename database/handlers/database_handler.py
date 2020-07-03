@@ -20,7 +20,7 @@ class DatabaseHandler:
     def connect(self):
         try:
             if self.connection == None:
-                self.connection = pymysql.connect(host="localhost", user="root", password="admin", db="ustanove", charset="utf8", cursorclass=pymysql.cursors.DictCursor)
+                self.connection = pymysql.connect(host="localhost", user="root", password="lozinka", db="ustanove", charset="utf8", cursorclass=pymysql.cursors.DictCursor)
         except pymysql.MySQLError as e:
             print(e)
 
@@ -113,7 +113,6 @@ class DatabaseHandler:
             self.connect()
             with self.connection.cursor() as cursor:
                 query = self.get_query(3, attr, str(value))
-                print(query)
                 primary_keys = []
                 for i in self.metadata["key"]:
                     t = obj[i]
@@ -147,7 +146,6 @@ class DatabaseHandler:
                     query += ("%s" + ", ")
             query = query[:-2]
             query += ")"
-            print(query)
             return query
         elif num == 2:
             query = "DELETE FROM " + self.table + " WHERE "
