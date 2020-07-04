@@ -9,24 +9,14 @@ class Model(QtCore.QAbstractTableModel):
         self.data_list = data_list
         self.filtered_data = filtered_data
 
-        
-        # test
-
     def get_element(self, index):
-        # dodato filter
         if self.filtered_data is not None:
             return self.filtered_data[index.row()]
-        # 
         return self.data_list.get_all()[index.row()]
 
-    # def get_element(self, index):
-    #     return self.data_list.get_all()[index.row()]
-
     def rowCount(self, index):
-        # dodato filter
         if self.filtered_data is not None:
             return len(self.filtered_data)
-        # 
         return len(self.data_list.get_all())
 
     def columnCount(self, index):
@@ -50,7 +40,7 @@ class Model(QtCore.QAbstractTableModel):
 
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
         for i in range(len(self.data_list.metadata["collumns"])):
-            if section == i and orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole: # dodati proveru ako je collumns tipa list nemoj ga kreirati !!!!!
+            if section == i and orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole: 
                 return self.data_list.metadata["collumns"][i].replace("_"," ").capitalize()
 
     def setData(self, index, value, role=QtCore.Qt.EditRole):
@@ -83,14 +73,17 @@ class Model(QtCore.QAbstractTableModel):
                     except Exception:
                         self.message_box("Format za datum mora biti: dd.mm.yyyy!")
                         return False
-                self.data_list.edit(self.selected_data, self.data_list.metadata["collumns"][i], value)
+                try:
+                    self.data_list.edit(self.selected_data, self.data_list.metadata["collumns"][i], value)
+                except ValueError:
+                    self.message_box("Pokusavate da unesete nepostojeci povezani podatak!\nMolimo proverite podatke i pokusajte ponovo.")
+                    return False
                 return True
         return False
 
     def removeRows(self, row, rows, index=QtCore.QModelIndex()):
         selected_data = self.get_element(index)
 
-        # zabrana za brisanje povezanih objekata
         connected_tables = []
         for i in self.data_list.metadata["linked_files"]:
             c_model = FileHandler(i, self.data_list.is_database()).get_handler()
@@ -111,7 +104,7 @@ class Model(QtCore.QAbstractTableModel):
                 if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
                     self.message_box("Ovaj podatak je povezan sa drugim podatkom!")
                     return False
-        # 
+
         self.beginRemoveRows(QtCore.QModelIndex(), row, row + rows - 1)
         self.data_list.delete_one(self.get_element(index))
         self.endRemoveRows()
@@ -126,12 +119,10 @@ class Model(QtCore.QAbstractTableModel):
         try:
             self.data_list.insert(obj)
         except ValueError:
-            self.message_box("Pokusavate da unesete nepostojeci povezani podatak!\nMolimo proverite podatke.")
+            self.message_box("Pokusavate da unesete nepostojeci povezani podatak!\nMolimo proverite podatke i pokusajte ponovo.")
             return False
-        # dodato filter 
         if self.filtered_data is not None:
             self.filtered_data.append(obj)
-        # treba za baze proveriti da se ne moze dodati kljuc koji ne potoji
         self.endInsertRows()
         return True
 

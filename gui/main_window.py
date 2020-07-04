@@ -26,7 +26,6 @@ class MainWindow(QtWidgets.QMainWindow):
         full_screen.triggered.connect(lambda : full_screen_check(full_screen))
         view_menu.addAction(full_screen)
 
-        #theme menubar
         theme = QtWidgets.QMenu("Theme", view_menu)
         theme.addSection("Dark Theme")
         dark = QtWidgets.QAction("Dark", theme)
@@ -54,13 +53,11 @@ class MainWindow(QtWidgets.QMainWindow):
         tree_view = QtWidgets.QTreeView()
         tree_view.setModel(file_system_model)
         tree_view.setRootIndex(file_system_model.index(QtCore.QDir.currentPath() + "/database/data"))
-        tree_view.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents) #prosirena kolona naspram sadrzaja
+        tree_view.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
 
         structure_dock.setWidget(tree_view)
         structure_dock.setMaximumWidth(250)
 
-
-        # db dock
         with open("database/metadata/db_metadata.json", "r") as f:
             db = json.load(f)
         db = db["database"]
@@ -75,8 +72,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         toggle_database_dock_action = database_dock.toggleViewAction()
         view_menu.addAction(toggle_database_dock_action)
-
-
 
         toggle_structure_dock_action = structure_dock.toggleViewAction()
         view_menu.addAction(toggle_structure_dock_action)
@@ -117,7 +112,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.setMenuBar(menu_bar)
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, structure_dock)
-
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, database_dock)
 
         self.setCentralWidget(central_widget)

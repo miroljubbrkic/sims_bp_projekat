@@ -46,7 +46,6 @@ class CentralWidget(QtWidgets.QWidget):
         if table is not None:
             toolbar_add.triggered.connect(lambda : model.insertRows(1, 1, QtCore.QModelIndex()))
         else:
-            # toolbar_add.triggered.connect(lambda : self.subtables[self.get_current_widget()].model().insertRows(1, 1, QtCore.QModelIndex()))
             toolbar_add.triggered.connect(lambda : self.insert_one(self.insert_one(self.subtables[self.get_current_widget()].model())))
         self.toolbar.addAction(toolbar_add)
         toolbar_delete = QtWidgets.QAction("DELETE", self.toolbar)
@@ -87,7 +86,6 @@ class CentralWidget(QtWidgets.QWidget):
                                 filter_sel += str(selected_object_model[linked_keys[j]["k"][k]])
                 if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
                     filtered_data.append(self.subhandler.data[d])
-                print(current, "====", filter_sel)
             
             self.model = Model(self.subhandler, filtered_data)
             self.subtables[i].setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
@@ -102,8 +100,7 @@ class CentralWidget(QtWidgets.QWidget):
             for index in indexes:
                 model.removeRows(index.row(), 1, index)
                 break
-        # index = self.table.selectionModel().currentIndex()
-        # self.table.model().removeRows(index.row(), 1, index)
+
 
     def insert_one(self, model):
         if model is not None:
