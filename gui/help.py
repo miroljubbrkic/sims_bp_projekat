@@ -4,6 +4,10 @@ from PySide2 import QtWidgets, QtGui, QtCore
 class Help(QtWidgets.QDialog):
     def __init__(self, parent=None):
         super(Help, self).__init__(parent)
+        self.setter()
+
+
+    def setter(self):
         self.setMinimumSize(200, 100)
         self.setWindowTitle("Help")
         self.setWindowIcon(QtGui.QIcon("icons/angry.ico"))

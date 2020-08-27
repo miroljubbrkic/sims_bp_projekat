@@ -17,10 +17,20 @@ class DatabaseHandler:
             print(self.meta_filepath)
             print("Meta file nije pronadjen!")
 
+    # def connect(self):
+    #     try:
+    #         if self.connection == None:
+    #             self.connection = pymysql.connect(host="localhost", user="root", password="admin", db="ustanove", charset="utf8", cursorclass=pymysql.cursors.DictCursor)
+    #     except pymysql.MySQLError as e:
+    #         print(e)
+    
     def connect(self):
         try:
             if self.connection == None:
-                self.connection = pymysql.connect(host="localhost", user="root", password="lozinka", db="ustanove", charset="utf8", cursorclass=pymysql.cursors.DictCursor)
+                with open("database/db/db.json", "r") as fdb:
+                    fdata = json.load(fdb)
+                    print(fdata["user"])
+                self.connection = pymysql.connect(host="localhost", user=fdata["user"], password=fdata["pass"], db="ustanove", charset="utf8", cursorclass=pymysql.cursors.DictCursor)
         except pymysql.MySQLError as e:
             print(e)
 
@@ -44,6 +54,22 @@ class DatabaseHandler:
     
     def get_all(self):
         return self.data
+
+    # def get_all(self):
+    #     # ili mozda samo ici return self.data 
+    #     try:
+    #         self.connect()
+    #         with self.connection.cursor() as cursor:
+    #             # query = "SHOW TABLES"
+    #             query = "Select * FROM " + self.table
+    #             cursor.execute(query, ())
+    #             result = cursor.fetchall()
+    #             return result
+    #     except pymysql.MySQLError as e:
+    #         print(e)
+    #     finally:
+    #         self.disconect()
+    #         self.connection = None
         
     def save_data(self):
         try:

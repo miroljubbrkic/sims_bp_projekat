@@ -1,4 +1,4 @@
-from PySide2 import QtWidgets, QtCore
+from PySide2 import QtWidgets, QtCore, QtGui
 from gui.form import Form
 import datetime
 
@@ -14,9 +14,14 @@ class Model(QtCore.QAbstractTableModel):
             return self.filtered_data[index.row()]
         return self.data_list.get_all()[index.row()]
 
+    # def get_element(self, index):
+    #     return self.data_list.get_all()[index.row()]
+
     def rowCount(self, index):
+        # dodato filter
         if self.filtered_data is not None:
             return len(self.filtered_data)
+        # 
         return len(self.data_list.get_all())
 
     def columnCount(self, index):
@@ -40,7 +45,7 @@ class Model(QtCore.QAbstractTableModel):
 
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
         for i in range(len(self.data_list.metadata["collumns"])):
-            if section == i and orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole: 
+            if section == i and orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole: # dodati proveru ako je collumns tipa list nemoj ga kreirati !!!!!
                 return self.data_list.metadata["collumns"][i].replace("_"," ").capitalize()
 
     def setData(self, index, value, role=QtCore.Qt.EditRole):
@@ -56,6 +61,7 @@ class Model(QtCore.QAbstractTableModel):
                 if self.data_list.metadata["attr_type"][i] == "int":
                     try:
                         value = int(value)
+                        value = str(value)
                     except Exception:
                         self.message_box("Za ovo polje je nephodno uneti broj!")
                         return False
@@ -83,32 +89,34 @@ class Model(QtCore.QAbstractTableModel):
 
     def removeRows(self, row, rows, index=QtCore.QModelIndex()):
         selected_data = self.get_element(index)
-
-        connected_tables = []
-        for i in self.data_list.metadata["linked_files"]:
-            c_model = FileHandler(i, self.data_list.is_database()).get_handler()
-            connected_tables.append(c_model)
-            
-        for i in connected_tables:
-            for d in range(len(i.data)):
-                current = ""
-                filter_sel = ""
-
-                if self.data_list.metadata["linked_keys"] != False:
-                    linked_keys = self.data_list.metadata["linked_keys"]
-                    for j in range(len(linked_keys)):
-                        if linked_keys[j]["name"] == i.metadata["class"]:
-                            for k in range(len(linked_keys[j]["fk"])):
-                                current += i.get_all()[d][linked_keys[j]["fk"][k]]
-                                filter_sel += selected_data[linked_keys[j]["k"][k]]
-                if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
-                    self.message_box("Ovaj podatak je povezan sa drugim podatkom!")
-                    return False
-
-        self.beginRemoveRows(QtCore.QModelIndex(), row, row + rows - 1)
+        # zabrana za brisanje povezanih objekata
+        if self.data_list.metadata["type"] != "serial":
+            connected_tables = []
+            for i in self.data_list.metadata["linked_files"]:
+                c_model = FileHandler(i, self.data_list.is_database()).get_handler()
+                connected_tables.append(c_model)
+                
+            for i in connected_tables:
+                for d in range(len(i.data)):
+                    current = ""
+                    filter_sel = ""
+                    if self.data_list.metadata["linked_keys"] != False:
+                        linked_keys = self.data_list.metadata["linked_keys"]
+                        for j in range(len(linked_keys)):
+                            if linked_keys[j]["name"] == i.metadata["class"]:
+                                for k in range(len(linked_keys[j]["fk"])):
+                                    current += i.get_all()[d][linked_keys[j]["fk"][k]]
+                                    filter_sel += selected_data[linked_keys[j]["k"][k]]
+                    if (current == filter_sel) and (len(current) != 0 or len(filter_sel) != 0):
+                        self.message_box("Ovaj podatak je povezan sa drugim podatkom!")
+                        return False
+        # 
         self.data_list.delete_one(self.get_element(index))
+        self.beginRemoveRows(QtCore.QModelIndex(), row, row + rows - 1)
+        # self.data_list.delete_one(self.get_element(index))
         self.endRemoveRows()
         return True
+        self.emit()
 
     def insertRows(self, row, rows, index=QtCore.QModelIndex()):
         self.beginInsertRows(QtCore.QModelIndex(), row, row + rows-1)
@@ -121,17 +129,19 @@ class Model(QtCore.QAbstractTableModel):
         except ValueError:
             self.message_box("Pokusavate da unesete nepostojeci povezani podatak!\nMolimo proverite podatke i pokusajte ponovo.")
             return False
+        # dodato filter 
         if self.filtered_data is not None:
             self.filtered_data.append(obj)
         self.endInsertRows()
         return True
 
     def flags(self, index):
-        for i in range(len(self.data_list.metadata["collumns"])):
-            for j in range(len(self.data_list.metadata["key"])):
-                if self.data_list.metadata["collumns"][i] == self.data_list.metadata["key"][j]:
-                    if index.column() == i:
-                        return ~QtCore.Qt.ItemIsEditable
+        if self.data_list.metadata["type"] != "serial":
+            for i in range(len(self.data_list.metadata["collumns"])):
+                for j in range(len(self.data_list.metadata["key"])):
+                    if self.data_list.metadata["collumns"][i] == self.data_list.metadata["key"][j]:
+                        if index.column() == i:
+                            return ~QtCore.Qt.ItemIsEditable
         return super().flags(index) | QtCore.Qt.ItemIsEditable
 
     def message_box(self, text):

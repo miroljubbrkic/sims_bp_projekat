@@ -24,18 +24,20 @@ class CentralWidget(QtWidgets.QWidget):
         self.table.setModel(self.model)
 
         # subtable
-        self.table.clicked.connect(self.show_tabs)
+        # self.table.clicked.connect(self.show_tabs)
 
-        # test za context
-        self.table.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
-        self.table.customContextMenuRequested.connect(self.handle_header_menu)
+        # # test za context
+        # self.table.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        # self.table.customContextMenuRequested.connect(self.handle_header_menu)
     
         self.set_toolbar(self.main_layout, self.table, self.table.model())
         self.main_layout.addWidget(self.table)
-        if len(self.subtables) > 0:
-            self.create_tab_widget()
-            self.set_toolbar(self.main_layout)
-            self.main_layout.addWidget(self.tab_widget)
+        if self.data_list.metadata["type"] != "serial":
+            self.table.clicked.connect(self.show_tabs)
+            if len(self.subtables) > 0:
+                self.create_tab_widget()
+                self.set_toolbar(self.main_layout)
+                self.main_layout.addWidget(self.tab_widget)
         self.setLayout(self.main_layout)
 
     def set_toolbar(self, layout, table=None, model=None):
@@ -46,6 +48,7 @@ class CentralWidget(QtWidgets.QWidget):
         if table is not None:
             toolbar_add.triggered.connect(lambda : model.insertRows(1, 1, QtCore.QModelIndex()))
         else:
+            # toolbar_add.triggered.connect(lambda : self.subtables[self.get_current_widget()].model().insertRows(1, 1, QtCore.QModelIndex()))
             toolbar_add.triggered.connect(lambda : self.insert_one(self.insert_one(self.subtables[self.get_current_widget()].model())))
         self.toolbar.addAction(toolbar_add)
         toolbar_delete = QtWidgets.QAction("DELETE", self.toolbar)
@@ -100,18 +103,19 @@ class CentralWidget(QtWidgets.QWidget):
             for index in indexes:
                 model.removeRows(index.row(), 1, index)
                 break
-
+        # index = self.table.selectionModel().currentIndex()
+        # self.table.model().removeRows(index.row(), 1, index)
 
     def insert_one(self, model):
         if model is not None:
             model.insertRows(1, 1, QtCore.QModelIndex())
         
-    def handle_header_menu(self):
-        menu = QtWidgets.QMenu(self)
-        delete = QtWidgets.QAction("Delete", menu)
-        delete.triggered.connect(lambda : self.remove_one(self.table, self.table.model()))
-        menu.addAction(delete)
-        add = QtWidgets.QAction("Add", menu)
-        add.triggered.connect(lambda : self.table.model().insertRows(1, 1, QtCore.QModelIndex()))
-        menu.addAction(add)
-        menu.exec_(QtGui.QCursor.pos())
+    # def handle_header_menu(self):
+    #     menu = QtWidgets.QMenu(self)
+    #     delete = QtWidgets.QAction("Delete", menu)
+    #     delete.triggered.connect(lambda : self.remove_one(self.table, self.table.model()))
+    #     menu.addAction(delete)
+    #     add = QtWidgets.QAction("Add", menu)
+    #     add.triggered.connect(lambda : self.table.model().insertRows(1, 1, QtCore.QModelIndex()))
+    #     menu.addAction(add)
+    #     menu.exec_(QtGui.QCursor.pos())
