@@ -61,10 +61,6 @@ class MainWindow(QtWidgets.QMainWindow):
         structure_dock.setWidget(self.tree_view)
         structure_dock.setMaximumWidth(250)
 
-        # db dock
-        # with open("database/metadata/db_metadata.json", "r") as f:
-        #     db = json.load(f)
-        # db = db["database"]
         db = DatabaseScheme().get_scheme()
         database_dock = QtWidgets.QDockWidget("Database Dock", self)
         database_dock.setMaximumWidth(250)
